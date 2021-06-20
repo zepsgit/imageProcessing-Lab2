@@ -7,6 +7,7 @@ import matplotlib.image as mpimg
 img = cv2.imread('img1.png',0)
 #obtain number of rows and columns 
 #of the imaage
+
 m,n=img.shape
 #develop different filter
 k1=np.ones([3,3],dtype=int)
@@ -31,7 +32,8 @@ def padding(kx):
     global pn
     pn=(kernel_n-1)/2 #padding number
     pn=int(pn)
-    img_pad=np.zeros([m+2*pn,n+2*pn])
+    global img_pad
+    img_pad=np.zeros([m+kernel_n-1,n+kernel_n-1])
     for i in range(pn,m+pn):
         for j in range(pn,n+pn):
                 img_pad[i,j]=img[i-pn,j-pn]
@@ -40,20 +42,40 @@ def padding(kx):
 
 def filter(kx):
     kernel_n=kx.shape[0]
-    img_new=np.zeros([m+kernel_n,n+kernel_n])
+    img_new=np.zeros([m,n])
     sum_p=0
     img_pad=padding(kx)
-    for ki in range(pn,pn+m):
-        for kj in range(pn,pn+n):
-            for x in range(ki,ki+kernel_n):
-                for y in range(kj,kj+kernel_n):
-                    sum_p=sum_p+img_pad[x-pn,y-pn]*kx[x-ki,y-kj]
-                    img_new[x,y]=sum_p
+    for s in range(0,m):
+        for t in range(0,n):
+            for p in range(0,kernel_n):
+               for q in range(0,kernel_n):
+                    sum_p=sum_p+img_pad[s+p,t+q]*kx[p,q]
+                    img_new[s,t]=sum_p
+                    sum_p=0
     return img_new
-                       
-img_f=filter(k1)
-img_f = img_f.astype(np.uint8)
-#cv2.imwrite('blurred.tif', img_f)
-cv2.imshow("blurred image",img_f)
+
+img_ones3=filter(k1)
+img_ones3 = img_ones3.astype(int)
+cv2.imwrite('ones3.png', img_ones3)
+
+img_ones7=filter(k2)
+img_ones7 = img_ones7.astype(int)
+cv2.imwrite('ones7.png', img_ones7)
+
+img_g3=filter(k3)
+img_g3=img_g3.astype(int)
+cv2.imwrite('img_g3.png',img_g3)
+
+img_g7=filter(k4)
+img_g7=img_g7.astype(int)
+cv2.imwrite('img_g7.png',img_g7)
+
+cv2.imwrite('origin.png',img)
+cv2.imshow('origin',img)
+cv2.imshow('ones3',img_ones3)
+
+cv2.imshow('ones7',img_ones7)
+cv2.imshow('img_g3',img_g3)
+cv2.imshow('img_g7',img_g7)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
