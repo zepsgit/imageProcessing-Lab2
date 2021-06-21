@@ -23,8 +23,9 @@ def gkern(l, sig):
 
     return kernel / np.sum(kernel)
 k3=gkern(3,0.5)
-k4=gkern(12,1.2)
+k4=gkern(13,1.2)
 #convolve the mask over the image
+'''
 def filter(kx):
     kernel_n=kx.shape[0]
     kn=int((kernel_n-1)/2)
@@ -39,12 +40,42 @@ def filter(kx):
                     sum_p=sum_p+img_new[s-kn+p,t-kn+q]*kx[p,q]
                     img_[s-kn,t-kn]=sum_p
     return img_
+    '''
+#without padding
+def filter(kx):
+    kernel_n=kx.shape[0]
+    kn=int((kernel_n-1)/2)
+    img_new=np.zeros([m,n])
+    for s in range(kn,m-kn):
+        for t in range(kn,n-kn):
+            sum_p=0
+            for p in range(0,kernel_n):
+               for q in range(0,kernel_n):
+                    sum_p=sum_p+img[s-kn+p,t-kn+q]*kx[p,q]
+                    img_new[s,t]=sum_p
+    return img_new
 
-img_f=filter(k1)
-img_f = img_f.astype(np.uint8)
-print(img_f.min(), img_f.max())
-cv2.imwrite('ones3.png', img_f)
-cv2.imshow('ones3',img_f)
+img_one3=filter(k1)
+img_one3= img_one3.astype(np.uint8)
+print('scale of origin')
+print(img.min(), img.max())
+print('scale after filter')
+print(img_one3.min(), img_one3.max())
+cv2.imwrite('ones3.png', img_one3)
+cv2.imshow('ones3',img_one3)
+
+img_one7=filter(k2)
+img_one7 = img_one3.astype(np.uint8)
+cv2.imwrite('ones7.png', img_one7)
+cv2.imshow('ones7',img_one7)
+
+img_g3=filter(k3)
+img_g3=img_g3.astype(np.uint8)
+cv2.imshow('g7',img_g3)
+
+img_g7=filter(k4)
+img_g7=img_g7.astype(np.uint8)
+cv2.imshow('g7',img_g7)
 
 cv2.imwrite('origin.png',img)
 cv2.imshow('origin',img)
