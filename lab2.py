@@ -23,59 +23,31 @@ def gkern(l, sig):
 
     return kernel / np.sum(kernel)
 k3=gkern(3,0.5)
-k4=gkern(7,1.2)
+k4=gkern(12,1.2)
 #convolve the mask over the image
-#padding zeros 
-def padding(kx):
-    global kernel_n
-    kernel_n=kx.shape[0]
-    global pn
-    pn=(kernel_n-1)/2 #padding number
-    pn=int(pn)
-    global img_pad
-    img_pad=np.zeros([m+kernel_n-1,n+kernel_n-1])
-    for i in range(pn,m+pn):
-        for j in range(pn,n+pn):
-                img_pad[i,j]=img[i-pn,j-pn]
-    return img_pad
-
-
 def filter(kx):
     kernel_n=kx.shape[0]
-    img_new=np.zeros([m,n])
-    sum_p=0
-    img_pad=padding(kx)
-    for s in range(0,m):
-        for t in range(0,n):
+    kn=int((kernel_n-1)/2)
+    img_=np.zeros([m,n])
+    img_new=np.zeros([m+kernel_n,n+kernel_n])
+    for s in range(kn,m+kn):
+        for t in range(kn,n+kn):
+            img_new[s,t]=img[s-kn,t-kn]
+            sum_p=0
             for p in range(0,kernel_n):
                for q in range(0,kernel_n):
-                    sum_p=sum_p+img_pad[s+p,t+q]*kx[p,q]
-                    img_new[s,t]=sum_p
-                    sum_p=0
-    return img_new
+                    sum_p=sum_p+img_new[s-kn+p,t-kn+q]*kx[p,q]
+                    img_[s-kn,t-kn]=sum_p
+    return img_
 
-img_ones3=filter(k1)
-img_ones3 = img_ones3.astype(int)
-cv2.imwrite('ones3.png', img_ones3)
-
-img_ones7=filter(k2)
-img_ones7 = img_ones7.astype(int)
-cv2.imwrite('ones7.png', img_ones7)
-
-img_g3=filter(k3)
-img_g3=img_g3.astype(int)
-cv2.imwrite('img_g3.png',img_g3)
-
-img_g7=filter(k4)
-img_g7=img_g7.astype(int)
-cv2.imwrite('img_g7.png',img_g7)
+img_f=filter(k1)
+img_f = img_f.astype(np.uint8)
+print(img_f.min(), img_f.max())
+cv2.imwrite('ones3.png', img_f)
+cv2.imshow('ones3',img_f)
 
 cv2.imwrite('origin.png',img)
 cv2.imshow('origin',img)
-cv2.imshow('ones3',img_ones3)
 
-cv2.imshow('ones7',img_ones7)
-cv2.imshow('img_g3',img_g3)
-cv2.imshow('img_g7',img_g7)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
