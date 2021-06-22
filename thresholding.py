@@ -25,7 +25,7 @@ def findTh(fig):
             ut1=ut1+q*pt[q]/wt1
         sigmaSqr=wt0*wt1*(ut0-ut1)**2
         return sigmaSqr
-        
+
     maxInit=0
     for k in range(0,L+1):
         s=sigma(k)
@@ -33,9 +33,32 @@ def findTh(fig):
             maxInit=s
             th=k
     return th
+#binarize the iamge using threshold found by above function
+def biImag(fig,th):
+    img=cv2.imread(fig,0)
+    L=img.max()
+    m,n=img.shape
+    for x in range(0,m):
+        for y in range(0,n):
+            if img[x,y]<th:
+                img[x,y]=0
+            else:
+                img[x,y]=L
+    return img
 
-a=findTh('img3.png')
-print(a)
+th3=findTh('img3.png')
+print('Threshold of img3 is', th3)
+th4=findTh('img4.png')
+print('Threshold of img4 is', th4)
+
+I3=biImag('img3.png',th3)
+I4=biImag('img4.png',th4)
+cv2.imshow('img3',I3)
+cv2.imshow('img4',I4)
+cv2.waitKey(0)
+cv2.destroyAllWindows
+cv2.imwrite('img3bi.png',I3)
+cv2.imwrite('img4bi.png',I4)
 
 
     
