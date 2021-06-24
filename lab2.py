@@ -3,12 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-#read image
-img = cv2.imread('img1.png',0)
-#obtain number of rows and columns 
-#of the imaage
-
-m,n=img.shape
 #develop different filter
 k1=np.ones([3,3],dtype=int)
 k1=k1/9
@@ -23,18 +17,24 @@ def gkern(l, sig):
 
     return kernel / np.sum(kernel)
 k3=gkern(3,0.5)
-k4=gkern(13,1.2)
+k4=gkern(7,1.2)
 
-k6=[[1,0,1],[-2,0,2],[-1,0,1]] #sobel x
-k7=[[-1,-2,-1],[0,0,0],[1,2,1]]#sobel y
-k8 =[[0.4038,    0.8021,    0.4038]
-    [0.8021,   -4.8233,    0.8021]
-    [0.4038,    0.8021,    0.4038]]
+k6=np.array([[-1,0,1],[-2,0,2],[-1,0,1]]) #sobel x
+k7=np.array([[-1,-2,-1],[0,0,0],[1,2,1]])#sobel y
+k8 =np.array([[0.4038,    0.8021,    0.4038],
+              [0.8021,   -4.8233,    0.8021],
+              [0.4038,    0.8021,    0.4038]])
 
 
 #convolve the mask over the image
-
+'''
 def filter(kx):
+    #read image
+    if np.logical_or(np.all(kx==k6),np.logical_or(np.all(kx==k7),np.all(kx==k8))):
+        img = cv2.imread('img2.png',0)
+    else:
+        img = cv2.imread('img1.png',0)
+    m,n=img.shape
     kernel_n=kx.shape[0]
     kn=int((kernel_n-1)/2)
     img_=np.zeros([m,n])
@@ -48,10 +48,15 @@ def filter(kx):
                     sum_p=sum_p+img_new[s-kn+p,t-kn+q]*kx[p,q]
                     img_[s-kn,t-kn]=sum_p
     return img_
-
 '''
 #without padding
 def filter(kx):
+    #read image
+    if np.logical_or(np.all(kx==k6),np.logical_or(np.all(kx==k7),np.all(kx==k8))):
+        img = cv2.imread('img2.png',0)
+    else:
+        img = cv2.imread('img1.png',0)
+    m,n=img.shape
     kernel_n=kx.shape[0]
     kn=int((kernel_n-1)/2)
     img_new=np.zeros([m,n])
@@ -63,33 +68,59 @@ def filter(kx):
                     sum_p=sum_p+img[s-kn+p,t-kn+q]*kx[p,q]
                     img_new[s,t]=sum_p
     return img_new
-'''
+
 img_one3=filter(k1)
 img_one3= img_one3.astype(np.uint8)
 #compare the intensities between after padding and origin
+#compare change of intensity range
+"""
 print('scale of origin')
 print(img.min(), img.max())
 print('scale after filter')
-
+"""
 print(img_one3.min(), img_one3.max())
 cv2.imwrite('ones3.png', img_one3)
 cv2.imshow('ones3',img_one3)
+cv2.imwrite('ones3.png',img_one3)
 
 img_one7=filter(k2)
 img_one7 = img_one7.astype(np.uint8)
 cv2.imwrite('ones7.png', img_one7)
 cv2.imshow('ones7',img_one7)
+cv2.imwrite('ones7.png',img_one7)
 
 img_g3=filter(k3)
 img_g3=img_g3.astype(np.uint8)
 cv2.imshow('g3',img_g3)
+cv2.imwrite('g3.png',img_g3)
 
 img_g7=filter(k4)
 img_g7=img_g7.astype(np.uint8)
 cv2.imshow('g7',img_g7)
+cv2.imwrite('g7.png',img_g7)
 
-cv2.imwrite('origin.png',img)
-cv2.imshow('origin',img)
+img_k6=filter(k6)
+img_k6=img_k6.astype(np.uint8)
+cv2.imshow('k6',img_k6)
+cv2.imwrite('k6.png',img_k6)
+
+img_k7=filter(k7)
+img_k7=img_k7.astype(np.uint8)
+cv2.imshow('k7',img_k7)
+cv2.imwrite('k7.png',img_k7)
+
+img_k8=filter(k8)
+img_k8=img_k8.astype(np.uint8)
+cv2.imshow('k8',img_k8)
+cv2.imwrite('k8.png',img_k8)
+
+img1_o=cv2.imread('img1.png',0)
+cv2.imwrite('origin1.png',img1_o)
+cv2.imshow('originImg1',img1_o)
+
+img2_o=cv2.imread('img2.png',0)
+cv2.imwrite('origin2.png',img2_o)
+cv2.imshow('originImg2',img2_o)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

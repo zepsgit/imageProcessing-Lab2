@@ -94,4 +94,28 @@
 \section{Thresholding}
 \subsection{Code for fingding threshold}
 \lstinputlisting[breaklines]{thresholding.py}
+\subsection{Outcome}
+
+\begin{figure}[hbt!]
+	\centering
+	\includegraphics[width=\linewidth]{thValue.png}
+	\caption{Threshold of img3 and img4 executed from function.}	
+\end{figure}
+\begin{figure}[hbt!]
+	\centering
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{img3bi.png}
+		\caption{Binarized img3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{img4bi.png}
+		\caption{Binarized img4}
+	\end{subfigure}
+\end{figure}
+\section{Discussion}
+1.Kernel1 and kerne5 are avaraging filter and gaussian filter. Compared to averaging filter, guassian filter weighs the pixel within the kernel which give higher weight to the closer pixel. So Gaussian highlight more importance for the colse pixel.\\
+2. The bigger the kernel size is, the vaguer the image is. Becasue with a bigger size kernel, more pixels far from the origin which are less relevant to the origin pixel will be convolved.\\
+3.Kernel6 is sobel filter for x axis, which sharpens the x direction edge. Kernel7 is a rotationally symmetric Laplacian of Gaussian filter, which sharpens the edge without direction feature.\\
+4. Edges in an image represents a swift change in the intensity of an image and noise in an image also signifies the same. so when noise is abundant in an image, it can interfere the edge detection.\\
+5.Adaptive thresholding typically takes a grayscale or color image as input and, in the simplest implementation, outputs a binary image representing the segmentation. For each pixel in the image, a threshold has to be calculated. If the pixel value is below the threshold it is set to the background value, otherwise it assumes the foreground value.
 \end{document}

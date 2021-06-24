@@ -16,14 +16,20 @@ def medf(size):
             for p in range(0,size):
                 for q in range(0,size):
                     listK[p,q]=img_new[s-kn+p,t-kn+q]
-                    listK=listK.flatten()
-                    listKsort=np.sort(listK)
+                    listKsort=np.sort(listK, axis=None, kind='quicksort')
                     med=listKsort[int((size*size-1)/2)]
                     img_[s-kn,t-kn]=med
     return img_
 
 m3=medf(3)
 m3=m3.astype(np.uint8)
-cv2.imshow(m3)
+cv2.imwrite('m3.png',m3)
+cv2.imshow('m3',m3)
+
+m5=medf(5)
+m5=m5.astype(np.uint8)
+cv2.imwrite('m5.png',m5)
+cv2.imshow('m5',m5)
+
 cv2.waitKey(0)
 cv2.destroyAllWindows

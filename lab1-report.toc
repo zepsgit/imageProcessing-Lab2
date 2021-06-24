@@ -6,3 +6,5 @@
 \contentsline {subsection}{\numberline {2.2}Figure Collection \uppercase {ii\relax }}{3}{}%
 \contentsline {section}{\numberline {3}Thresholding}{4}{}%
 \contentsline {subsection}{\numberline {3.1}Code for fingding threshold}{4}{}%
+\contentsline {subsection}{\numberline {3.2}Outcome}{5}{}%
+\contentsline {section}{\numberline {4}Discussion}{6}{}%
