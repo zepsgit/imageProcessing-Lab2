@@ -57,11 +57,8 @@ cv2.imshow('img3',I3)
 cv2.imshow('img4',I4)
 cv2.waitKey(0)
 cv2.destroyAllWindows
+
 cv2.imwrite('img3bi.png',I3)
 cv2.imwrite('img4bi.png',I4)
-
-
-    
-    
     
     

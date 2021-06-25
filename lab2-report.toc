@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}Spatial Filtering}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Implemented Function}{1}{}%
+\contentsline {subsection}{\numberline {1.2}Outcome Collections \uppercase {i\relax }}{2}{}%
+\contentsline {section}{\numberline {2}Median Filter}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Code}{3}{}%
+\contentsline {subsection}{\numberline {2.2}Figure Collection \uppercase {ii\relax }}{3}{}%
+\contentsline {section}{\numberline {3}Thresholding}{4}{}%
+\contentsline {subsection}{\numberline {3.1}Code for fingding threshold}{4}{}%
+\contentsline {subsection}{\numberline {3.2}Outcome}{5}{}%
+\contentsline {section}{\numberline {4}Discussion}{6}{}%

@@ -19,7 +19,7 @@ def gkern(l, sig):
 k3=gkern(3,0.5)
 k4=gkern(7,1.2)
 
-k6=np.array([[-1,0,1],[-2,0,2],[-1,0,1]]) #sobel x
+k6=np.array([np.array([-1,0,1]),np.array([-2,0,2]),np.array([-1,0,1])]) #sobel x
 k7=np.array([[-1,-2,-1],[0,0,0],[1,2,1]])#sobel y
 k8 =np.array([[0.4038,    0.8021,    0.4038],
               [0.8021,   -4.8233,    0.8021],
@@ -27,7 +27,6 @@ k8 =np.array([[0.4038,    0.8021,    0.4038],
 
 
 #convolve the mask over the image
-'''
 def filter(kx):
     #read image
     if np.logical_or(np.all(kx==k6),np.logical_or(np.all(kx==k7),np.all(kx==k8))):
@@ -48,37 +47,8 @@ def filter(kx):
                     sum_p=sum_p+img_new[s-kn+p,t-kn+q]*kx[p,q]
                     img_[s-kn,t-kn]=sum_p
     return img_
-'''
-#without padding
-def filter(kx):
-    #read image
-    if np.logical_or(np.all(kx==k6),np.logical_or(np.all(kx==k7),np.all(kx==k8))):
-        img = cv2.imread('img2.png',0)
-    else:
-        img = cv2.imread('img1.png',0)
-    m,n=img.shape
-    kernel_n=kx.shape[0]
-    kn=int((kernel_n-1)/2)
-    img_new=np.zeros([m,n])
-    for s in range(kn,m-kn):
-        for t in range(kn,n-kn):
-            sum_p=0
-            for p in range(0,kernel_n):
-               for q in range(0,kernel_n):
-                    sum_p=sum_p+img[s-kn+p,t-kn+q]*kx[p,q]
-                    img_new[s,t]=sum_p
-    return img_new
 
 img_one3=filter(k1)
-img_one3= img_one3.astype(np.uint8)
-#compare the intensities between after padding and origin
-#compare change of intensity range
-"""
-print('scale of origin')
-print(img.min(), img.max())
-print('scale after filter')
-"""
-print(img_one3.min(), img_one3.max())
 cv2.imwrite('ones3.png', img_one3)
 cv2.imshow('ones3',img_one3)
 cv2.imwrite('ones3.png',img_one3)
@@ -111,6 +81,7 @@ cv2.imwrite('k7.png',img_k7)
 
 img_k8=filter(k8)
 img_k8=img_k8.astype(np.uint8)
+print(img_k8.max(), img_k8.min())
 cv2.imshow('k8',img_k8)
 cv2.imwrite('k8.png',img_k8)
 
