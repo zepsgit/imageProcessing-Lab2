@@ -3,22 +3,14 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from scipy import ndimage
-image = plt.imread('img2.png')
-plt.imshow(image)
-# converting to grayscale
-gray = rgb2gray(image)
+def gkern(l, sig):
+    ax = np.linspace(-(l - 1) / 2., (l - 1) / 2., l)
+    xx, yy = np.meshgrid(ax, ax)
 
-# defining the sobel filters
-sobel_horizontal = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-print(sobel_horizontal, 'is a kernel for detecting horizontal edges')
- 
-sobel_vertical = np.array([np.array([-1, 0, 1]), np.array([-2, 0, 2]), np.array([-1, 0, 1])])
-print(sobel_vertical, 'is a kernel for detecting vertical edges')
+    kernel = np.exp(-0.5 * (np.square(xx) + np.square(yy)) / np.square(sig))
 
-out_h = ndimage.convolve(gray, sobel_horizontal, mode='reflect')
-out_v = ndimage.convolve(gray, sobel_vertical, mode='reflect')
-# here mode determines how the input array is extended when the filter overlaps a border.
-
-plt.imshow(out_h, cmap='gray')
-plt.imshow(out_v, cmap='gray')
-plt.show()
+    return kernel / np.sum(kernel)
+k3=gkern(3,0.5)
+k4=gkern(7,1.2)
+print(k3)
+print(k4)
