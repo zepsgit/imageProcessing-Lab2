@@ -43,7 +43,7 @@ def pad_img(img,size):
 
 '''
 function: spatial filter including linear and non-linear filter
-input:img--np.array|type--'linear' or 'nonlinear'|median_size--the size of median filter
+input:img--np.array|type--'linear' or 'nonlinear'--median filter
 output:filtered image--np.array
 '''
 def filter(img, type, kx):
@@ -70,6 +70,8 @@ def filter(img, type, kx):
                 med=sorted_kx[int((size*size-1)/2)]
                 new_img[i-pad_len, j-pad_len]=med
     return new_img
+
+#linear filter
 img1=cv2.imread('img1.png',0)
 img2=cv2.imread('img2.png',0)
 k1=knl_generator('average', 3, 0)
@@ -109,6 +111,17 @@ img_k8=filter(img2,'linear',k8)
 print(img_k8.max(), img_k8.min())
 cv2.imshow('k8',img_k8)
 cv2.imwrite('k8.png',img_k8)
+
+#perform median filter
+m3=knl_generator('median', 3, 0)
+img_m3=filter(img1, 'nonlinear', m3)
+cv2.imwrite('m3.png',img_m3)
+cv2.imshow('m3',img_m3)
+
+m5=knl_generator('median', 5, 0)
+img_m5=filter(img1, 'nonlinear', m5)
+cv2.imwrite('m5.png',img_m5)
+cv2.imshow('m5',img_m5)
 
 cv2.imwrite('origin1.png',img1)
 cv2.imshow('originImg1',img1)
