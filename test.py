@@ -1,16 +1,11 @@
-from skimage.color import rgb2gray
-import numpy as np
+from skimage.filters import threshold_otsu
 import cv2
-import matplotlib.pyplot as plt
-from scipy import ndimage
-def gkern(l, sig):
-    ax = np.linspace(-(l - 1) / 2., (l - 1) / 2., l)
-    xx, yy = np.meshgrid(ax, ax)
+I3=cv2.imread('img3.png',0)
+th3=threshold_otsu(I3)
 
-    kernel = np.exp(-0.5 * (np.square(xx) + np.square(yy)) / np.square(sig))
+I4=cv2.imread('img4.png',0)
+th4=threshold_otsu(I4)
 
-    return kernel / np.sum(kernel)
-k3=gkern(3,0.5)
-k4=gkern(7,1.2)
-print(k3)
-print(k4)
+print('Threshold of img3 is', th3)
+
+print('Threshold of img4 is', th4)

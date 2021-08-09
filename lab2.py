@@ -74,6 +74,7 @@ def filter(img, type, kx):
 #linear filter
 img1=cv2.imread('img1.png',0)
 img2=cv2.imread('img2.png',0)
+'''
 k1=knl_generator('average', 3, 0)
 img_one3=filter(img1, 'linear', k1)
 cv2.imwrite('ones3.png', img_one3)
@@ -104,14 +105,21 @@ cv2.imwrite('k6.png',img_k6)
 k7=knl_generator('sobel_v', 0, 0)
 img_k7=filter(img2,'linear',k7)
 cv2.imshow('k7',img_k7)
-cv2.imwrite('k7.png',img_k7)
+cv2.imwrite('k7.png',img_k7)'''
 
 k8=knl_generator('laplacian', 0, 0)
 img_k8=filter(img2,'linear',k8)
+for i in range(0,img2.shape[0]):
+    for j in range(0, img2.shape[1]):
+        if abs(img_k8[i,j])>100:
+            img_k8[i,j]=img_k8[i,j]
+        else:
+            img_k8[i,j]=0
+print(img_k8)
 print(img_k8.max(), img_k8.min())
 cv2.imshow('k8',img_k8)
 cv2.imwrite('k8.png',img_k8)
-
+'''
 #perform median filter
 m3=knl_generator('median', 3, 0)
 img_m3=filter(img1, 'nonlinear', m3)
@@ -127,7 +135,7 @@ cv2.imwrite('origin1.png',img1)
 cv2.imshow('originImg1',img1)
 
 cv2.imwrite('origin2.png',img2)
-cv2.imshow('originImg2',img2)
+cv2.imshow('originImg2',img2)'''
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
